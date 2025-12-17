@@ -1,16 +1,19 @@
 `timescale 1ns / 1ps
 module register_tb;
 
+    // Parameters
+    parameter WIDTH = 8;
+
     // Testbench signals
     reg clk;
     reg reset;
     reg enable;
-    reg [7:0] d_in;
-    wire [7:0] q_out;
+    reg [WIDTH-1:0] d_in;
+    wire [WIDTH-1:0] q_out;
 
     // Instantiate the Device Under Test (DUT)
     register #(
-        .WIDTH(8)
+        .WIDTH(WIDTH)
     ) dut (
         .clk(clk),
         .reset(reset),
@@ -19,7 +22,11 @@ module register_tb;
         .q_out(q_out)
     );
 
-    always #5 clk = ~clk; // clock signal
+    // Clock generation
+    initial begin
+        clk = 0;
+        forever #5 clk = ~clk; // 10 ns clock period
+    end 
 
     initial begin
         $dumpfile("registerTB.vcd");

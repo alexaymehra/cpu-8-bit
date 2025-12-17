@@ -1,5 +1,5 @@
 # 8-bit CPU
-Complete 8-bit CPU with simple ISA.
+Complete 8-bit CPU with simple ISA. Von Neumann Architecture.
 
 ## Toolchain:
 - **Editor:** Visual Studio Code
