@@ -1,4 +1,4 @@
-# cpu-8-bit
+# 8-bit CPU
 Complete 8-bit CPU with simple ISA.
 
 ## Toolchain:
