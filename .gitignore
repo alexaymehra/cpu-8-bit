@@ -2,6 +2,3 @@
 *.vcd
 # Verilog intermediate files
 *.vvp
-# Simulation executable files
-*.out
-*.exe
