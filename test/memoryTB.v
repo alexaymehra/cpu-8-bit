@@ -9,8 +9,8 @@ module memory_tb;
     reg clk;
     reg we;
     reg [ADDR_WIDTH-1:0] addr;
-    reg [DATA_WIDTH-1:0] din;
-    wire [DATA_WIDTH-1:0] dout;
+    reg [DATA_WIDTH-1:0] data_in;
+    wire [DATA_WIDTH-1:0] data_out;
 
     // Instantiate the Device Under Test (DUT)
     memory #(
@@ -20,8 +20,8 @@ module memory_tb;
         .clk(clk),
         .we(we),
         .addr(addr),
-        .din(din),
-        .dout(dout)
+        .data_in(data_in),
+        .data_out(data_out)
     );
 
     initial begin
@@ -37,31 +37,32 @@ module memory_tb;
 
     // Test sequence
     initial begin
+        $monitor("Time: %0dns, WE: %b, ADDR: %h, DIN: %h, DOUT: %h", $time, we, addr, data_in, data_out);
+        
         // Initialize signals
         we = 0;
         addr = 0;
-        din = 0;
+        data_in = 0;
 
         // Wait for global reset
         #10;
 
         // Write data to memory
-        we = 1; addr = 8'h00; din = 8'hA5; #10; // Write 0xA5 to address 0x00
-        we = 1; addr = 8'h01; din = 8'h5A; #10; // Write 0x5A to address 0x01
-        we = 1; addr = 8'h02; din = 8'hFF; #10; // Write 0xFF to address 0x02
+        we = 1; addr = 8'h00; data_in = 8'hA5; #10; // Write 0xA5 to address 0x00
+        we = 1; addr = 8'h01; data_in = 8'h5A; #10; // Write 0x5A to address 0x01
+        we = 1; addr = 8'h02; data_in = 8'hFF; #10; // Write 0xFF to address 0x02
 
         // Disable write enable
-        we = 0; addr = 8'h00; din = 8'h00; #10; // Disable write
+        we = 0; addr = 8'h00; data_in = 8'h00; #10; // Disable write
         
-
         // Read data from memory
         addr = 8'h00; #10; // Read from address 0x00
-        $display("Read from address 0x00: %h", dout);
+        if (data_out !== 8'hA5) $display("ERROR: Expected 0xA5 at address 0x00, got %h", data_out);
         addr = 8'h01; #10; // Read from address 0x01
-        $display("Read from address 0x01: %h", dout);
+        if (data_out !== 8'h5A) $display("ERROR: Expected 0x5A at address 0x01, got %h", data_out);
         addr = 8'h02; #10; // Read from address 0x02
-        $display("Read from address 0x02: %h", dout);
-        #10;
+        if (data_out !== 8'hFF) $display("ERROR: Expected 0xFF at address 0x02, got %h", data_out);
+
         $finish;
     end
 endmodule

@@ -10,7 +10,6 @@ module alu #(
     output reg overflow_flag        // Overflow flag
 );
 
-
 always @(*) begin
     // Default flag values
     zero_flag = 0;
@@ -18,7 +17,7 @@ always @(*) begin
 
     case (opcode)
         3'b000: begin           // ADD
-            {carry_flag, res} = a + b;
+            res = a + b;
             // if operands have same sign but result has different sign, overflow occured
             overflow_flag = ((a[WIDTH-1] == b[WIDTH-1]) && (res[WIDTH-1] != a[WIDTH-1]));
         end

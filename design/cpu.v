@@ -1,32 +1,35 @@
 module cpu (
     input wire clk,                 // Clock input
-    input wire reset                // Synchronous reset
+    input wire reset,               // Synchronous reset
+    output reg halt                 // HALT signal    
 );
     
     // FSM States --------------------------------
-    #localparam FETCH_ADDR = 3'b000; 
-    #localparam FETCH_WAIT = 3'b001; 
-    #localparam FETCH_DATA = 3'b010;
-    #localparam DECODE     = 3'b011;
-    #localparam EXECUTE    = 3'b100;
-    #localparam MEMORY     = 3'b101;
-    #localparam WRITEBACK  = 3'b110;
+    localparam FETCH_ADDR = 3'b000; 
+    localparam FETCH_WAIT = 3'b001; 
+    localparam FETCH_DATA = 3'b010;
+    localparam DECODE     = 3'b011;
+    localparam EXECUTE    = 3'b100;
+    localparam MEMORY     = 3'b101;
+    localparam WRITEBACK  = 3'b110;
     // -------------------------------------------
 
     // Instruction Opcodes -----------------------
-    #localparam ADD    = 3'b000;
-    #localparam AND    = 3'b001;
-    #localparam NOT    = 3'b010;
-    #localparam LOAD   = 3'b011;
-    #localparam STORE  = 3'b100;
-    #localparam JUMP   = 3'b101;
-    #localparam JUMPz  = 3'b110;
-    #localparam OUTPUT = 3'b111;
+    localparam ADD    = 3'b000;
+    localparam AND    = 3'b001;
+    localparam NOT    = 3'b010;
+    localparam LOAD   = 3'b011;
+    localparam STORE  = 3'b100;
+    localparam JUMP   = 3'b101;
+    localparam JUMPz  = 3'b110;
+    localparam HALT   = 3'b111;
     // -------------------------------------------
 
     // State Variables ---------------------------
     reg [2:0] cpu_state;
     reg [2:0] next_state;
+
+    reg halt_next;
     // -------------------------------------------
 
     // Main Registers & Flags --------------------
@@ -75,7 +78,7 @@ module cpu (
         .a(alu_input_a),                 
         .b(alu_input_b),                
         .opcode(ir[7:5]),
-        .result(alu_result),
+        .res(alu_result),
         .zero_flag(alu_zero_flag),
         .overflow_flag(alu_overflow_flag)
     );
@@ -93,6 +96,7 @@ module cpu (
             mdr <= 8'b0;
             zero_flag <= 1'b0;
             overflow_flag <= 1'b0;
+            halt <= 1'b0;
         end else begin
             cpu_state <= next_state;
             pc <= pc_next;
@@ -103,6 +107,7 @@ module cpu (
             mdr <= mdr_next;
             zero_flag <= zero_flag_next;
             overflow_flag <= overflow_flag_next;
+            halt <= halt_next;
         end
     end
     // -------------------------------------------
@@ -119,6 +124,7 @@ module cpu (
         mdr_next = mdr;
         zero_flag_next = zero_flag;
         overflow_flag_next = overflow_flag;
+        halt_next = halt;
 
         mem_we = 0;
         alu_input_a = 8'b0;
@@ -152,7 +158,7 @@ module cpu (
                         next_state = MEMORY;
                     end
 
-                    JUMP, JUMPz, OUTPUT: begin      // Control operations
+                    JUMP, JUMPz, HALT: begin      // Control operations
                         next_state = EXECUTE;
                     end
 
@@ -212,17 +218,8 @@ module cpu (
                         next_state = FETCH_ADDR;
                     end
 
-                    OUTPUT: begin                   // OUTPUT
-                        if (ir[3:0] == 4'b111) begin    // HALT
-                            $finish;
-                        end else begin
-                            if (ir[4] == 1'b0) begin    // choose SRC  
-                                $display("OUTPUT A: %d", a_reg);
-                            end else begin
-                                $display("OUTPUT B: %d", b_reg);
-                            end
-                        end
-
+                    HALT: begin                     // HALT
+                        halt_next = 1'b1;
                         next_state = FETCH_ADDR;
                     end
 
