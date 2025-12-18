@@ -10,6 +10,5 @@ Complete 8-bit CPU with simple ISA. Von Neumann Architecture.
 If the memory address that is decoded reads 0xFF then the CPU finishes running. 
 
 ## Todo
-- Make the CPU stop if the final memory address is reached.
-- Fix timing and control issues.
-- Add extra clarity to code.
+- Latch or recompute memory address, it can't be reset every cycle
+- Store ALU results in a temporary register (or hold inputs stable / latch result)

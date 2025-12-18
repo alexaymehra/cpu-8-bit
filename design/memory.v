@@ -1,21 +1,20 @@
-`timescale 1ns / 1ps
 module memory #(
-    parameter ADDR_WIDTH = 8,      // Address width (number of address bits)
-    parameter DATA_WIDTH = 8       // Data width (number of data bits)
+    parameter ADDR_WIDTH = 8,               // Address width 
+    parameter DATA_WIDTH = 8                // Data width 
 )(
-    input wire clk,                                // Clock signal
-    input wire we,                                 // Write enable
-    input wire [ADDR_WIDTH-1:0] addr,              // Address input
-    input wire [DATA_WIDTH-1:0] din,               // Data input
-    output reg [DATA_WIDTH-1:0] dout               // Data output
+    input wire clk,                         // Clock signal
+    input wire we,                          // Write enable
+    input wire [ADDR_WIDTH-1:0] addr,       // Address input
+    input wire [DATA_WIDTH-1:0] data_in,    // Data input
+    output reg [DATA_WIDTH-1:0] data_out    // Data output
 );
+    //  Data Width           Number of Addresses
+    reg [DATA_WIDTH-1:0] mem [(2**ADDR_WIDTH)-1:0];
 
-    reg [DATA_WIDTH-1:0] memory [(2**ADDR_WIDTH)-1:0];
-
-    always @(posedge clk) begin
+    always @(posedge clk) begin     // Synchronous read/write
         if (we) begin
-            memory[addr] <= din;
+            mem[addr] = data_in;    // Write-First behavior
         end
-        dout <= memory[addr];
+        data_out <= mem[addr];      // Updated data will be read immediately
     end
 endmodule
