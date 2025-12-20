@@ -36,12 +36,12 @@ module control_unit(
     // -------------------------------------------
 
     // FSM States --------------------------------
-    localparam FETCH     = 3'b000; 
-    localparam DECODE    = 3'b001;
-    localparam EXECUTE   = 3'b010;
-    localparam MEMORY    = 3'b011;
-    localparam WRITEBACK = 3'b100;
-    localparam HALT      = 3'b101;
+    localparam FETCH      = 3'b000; 
+    localparam DECODE     = 3'b001;
+    localparam EXECUTE    = 3'b010;
+    localparam MEMORY     = 3'b011;
+    localparam WRITEBACK  = 3'b100;
+    localparam HALT_STATE = 3'b101;
     // -------------------------------------------
     
     always @(*) begin
@@ -100,7 +100,7 @@ module control_unit(
                         end
 
                         HALT: begin
-                            next_state = HALT;
+                            next_state = HALT_STATE;
                         end
                     endcase
                 end
@@ -198,9 +198,9 @@ module control_unit(
                     endcase
                 end 
 
-                HALT: begin
+                HALT_STATE: begin
                     halt = 1;
-                    next_state = HALT;
+                    next_state = HALT_STATE;
                 end
             endcase
         end
