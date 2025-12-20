@@ -7,8 +7,14 @@ Complete 8-bit CPU with simple ISA. Von Neumann Architecture.
 - **Platform:** Windows Subsystem for Linux 2 (WSL2)
 
 ## About
-If the memory address that is decoded reads 0xFF then the CPU finishes running. 
+
 
 ## Todo
-- Latch or recompute memory address, it can't be reset every cycle
-- Store ALU results in a temporary register (or hold inputs stable / latch result)
+- Testbench EXECUTE on control unit
+- Testbench MEMORY on control unit
+- Testbench WRITEBACK on control unit
+- Testbench HALT_STATE on control unit
+- Wire all components together in CPU module
+- Write test programs for CPU module
+- Verify correction function of full CPU
+- Add documentation on github
