@@ -164,7 +164,7 @@ module control_unit(
                         STORE: begin
                             addr_offset = instr[3:0];   // Set address offset 
                             addr_sel = 1;               // Select PC + offset for address
-                            mem_sel = instr[2];         // Select register A or B for memory input
+                            mem_sel = instr[4];         // Select register A or B for memory input
                             mem_we = 1;                 // Allow write to memory
                             next_state = FETCH;
                         end
