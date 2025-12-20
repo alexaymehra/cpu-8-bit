@@ -10,8 +10,6 @@ Complete 8-bit CPU with simple ISA. Von Neumann Architecture.
 
 
 ## Todo
-- Testbench WRITEBACK on control unit
-- Testbench HALT_STATE on control unit
 - Wire all components together in CPU module
 - Write test programs for CPU module
 - Verify correction function of full CPU
