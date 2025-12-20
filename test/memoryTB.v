@@ -1,27 +1,18 @@
 `timescale 1ns / 1ps
 module memory_tb;
 
-    // Parameters
-    parameter ADDR_WIDTH = 8;
-    parameter DATA_WIDTH = 8;
-
-    // Testbench signals
     reg clk;
     reg we;
-    reg [ADDR_WIDTH-1:0] addr;
-    reg [DATA_WIDTH-1:0] data_in;
-    wire [DATA_WIDTH-1:0] data_out;
+    reg [7:0] addr;
+    reg [7:0] d_i;
+    wire [7:0] d_o;
 
-    // Instantiate the Device Under Test (DUT)
-    memory #(
-        .ADDR_WIDTH(ADDR_WIDTH),
-        .DATA_WIDTH(DATA_WIDTH)
-    ) dut (
+    memory_256x8 mem_unit (
         .clk(clk),
         .we(we),
         .addr(addr),
-        .data_in(data_in),
-        .data_out(data_out)
+        .d_i(d_i),
+        .d_o(d_o)
     );
 
     initial begin
@@ -29,39 +20,33 @@ module memory_tb;
         $dumpvars(0, memory_tb);    
     end
 
-    // Clock generation
     initial begin
         clk = 0;
-        forever #5 clk = ~clk; // 10 ns clock period
+        forever #5 clk = ~clk;
     end
 
-    // Test sequence
     initial begin
-        $monitor("Time: %0dns, WE: %b, ADDR: %h, DIN: %h, DOUT: %h", $time, we, addr, data_in, data_out);
+        $monitor("Time: %0dns, we: %b, addr: %h, d_i: %h, d_o: %h", $time, we, addr, d_i, d_o);
         
-        // Initialize signals
-        we = 0;
-        addr = 0;
-        data_in = 0;
+        we = 0; addr = 0; d_i = 0; #10;
 
-        // Wait for global reset
-        #10;
+        we = 1; addr = 8'h00; d_i = 8'hA5; #10;     // Write 0xA5 to address 0x00
+        we = 1; addr = 8'h01; d_i = 8'h5A; #10;     // Write 0x5A to address 0x01
+        we = 1; addr = 8'h02; d_i = 8'hFF; #10;     // Write 0xFF to address 0x02
 
-        // Write data to memory
-        we = 1; addr = 8'h00; data_in = 8'hA5; #10; // Write 0xA5 to address 0x00
-        we = 1; addr = 8'h01; data_in = 8'h5A; #10; // Write 0x5A to address 0x01
-        we = 1; addr = 8'h02; data_in = 8'hFF; #10; // Write 0xFF to address 0x02
-
-        // Disable write enable
-        we = 0; addr = 8'h00; data_in = 8'h00; #10; // Disable write
+        we = 0; addr = 8'h00; d_i = 8'h00; #10;     // Disable write
         
-        // Read data from memory
-        addr = 8'h00; #10; // Read from address 0x00
-        if (data_out !== 8'hA5) $display("ERROR: Expected 0xA5 at address 0x00, got %h", data_out);
-        addr = 8'h01; #10; // Read from address 0x01
-        if (data_out !== 8'h5A) $display("ERROR: Expected 0x5A at address 0x01, got %h", data_out);
-        addr = 8'h02; #10; // Read from address 0x02
-        if (data_out !== 8'hFF) $display("ERROR: Expected 0xFF at address 0x02, got %h", data_out);
+        addr = 8'h00; #10; 
+        if (d_o != 8'hA5) $display("Test Case 1 Failed");
+        else $display("Test Case 1 Passed");
+
+        addr = 8'h01; #10; 
+        if (d_o !== 8'h5A) $display("Test Case 2 Failed");
+        else $display("Test Case 2 Passed");
+
+        addr = 8'h02; #10; 
+        if (d_o !== 8'hFF) $display("Test Case 3 Failed");
+        else $display("Test Case 3 Passed");
 
         $finish;
     end

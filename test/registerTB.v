@@ -1,31 +1,43 @@
 `timescale 1ns / 1ps
 module register_tb;
 
-    // Parameters
-    parameter WIDTH = 8;
-
-    // Testbench signals
     reg clk;
-    reg reset;
-    reg enable;
-    reg [WIDTH-1:0] d_in;
-    wire [WIDTH-1:0] q_out;
+    reg rst;
+    reg we;
+    reg d_1;
+    wire q_1;
+    reg [2:0] d_3;
+    wire [2:0] q_3;
+    reg [7:0] d_8;
+    wire [7:0] q_8;
 
-    // Instantiate the Device Under Test (DUT)
-    register #(
-        .WIDTH(WIDTH)
-    ) dut (
+    register #(.WIDTH(1)) reg_unit_1 (
         .clk(clk),
-        .reset(reset),
-        .enable(enable),
-        .d_in(d_in),
-        .q_out(q_out)
+        .rst(rst),
+        .we(we),
+        .d(d_1),
+        .q(q_1)
     );
 
-    // Clock generation
+    register #(.WIDTH(3)) reg_unit_3 (
+        .clk(clk),
+        .rst(rst),
+        .we(we),
+        .d(d_3),
+        .q(q_3)
+    );
+
+    register #(.WIDTH(8)) reg_unit_8 (
+        .clk(clk),
+        .rst(rst),
+        .we(we),
+        .d(d_8),
+        .q(q_8)
+    );
+
     initial begin
         clk = 0;
-        forever #5 clk = ~clk; // 10 ns clock period
+        forever #5 clk = ~clk; 
     end 
 
     initial begin
@@ -34,48 +46,47 @@ module register_tb;
     end
 
     initial begin
-        // Initialize signals
-        clk = 0;
-        reset = 1;
-        enable = 0;
-        d_in = 8'b00000000;
-
-        // Release reset
-        #10;
-        reset = 0;
-
-        // Test case 1: Load data when enable is high
-        enable = 1;
-        d_in = 8'b10101010;
-        #10; // wait for one clock cycle
-        if (q_out !== 8'b10101010) begin
-            $display("Test case 1 failed: Expected 10101010, got %b", q_out);
+        // Test reset
+        rst = 1; we = 0; d_1 = 1'b1; d_3 = 3'b111; d_8 = 8'b11111111; #10;
+        if (q_1 != 1'b0 || q_3 != 3'b000 || q_8 != 8'b00000000) begin
+            $display("Test Case 1 Failed");
         end else begin
-            $display("Test case 1 passed");
+            $display("Test Case 1 Passed");
         end
 
-        // Test case 2: Disable loading, should retain previous value
-        enable = 0;
-        d_in = 8'b11111111; // this value should not be loaded
-        #10; // wait for one clock cycle
-        if (q_out !== 8'b10101010) begin
-            $display("Test case 2 failed: Expected 10101010, got %b", q_out);
+        // Test loading values (we high)
+        rst = 0; we = 1; #10;
+        if (q_1 != 1'b1 || q_3 != 3'b111 || q_8 != 8'b11111111) begin
+            $display("Test Case 2 Failed");
         end else begin
-            $display("Test case 2 passed");
+            $display("Test Case 2 Passed");
         end
 
-        // Test case 3: Enable loading again with new data
-        enable = 1;
-        d_in = 8'b11001100;
-        #10; // wait for one clock cycle
-        if (q_out !== 8'b11001100) begin
-            $display("Test case 3 failed: Expected 11001100, got %b", q_out);
+        // Test loading values (we low)
+        we = 0; d_1 = 1'b0; d_3 = 3'b010; d_8 = 8'b01010101; #10;
+        if (q_1 != 1'b1 || q_3 != 3'b111 || q_8 != 8'b11111111) begin
+            $display("Test Case 3 Failed");
         end else begin
-            $display("Test case 3 passed");
+            $display("Test Case 3 Passed");
         end
 
-        // Finish simulation
-        #10;
+        // Test loading values (we high)
+        we = 1; d_1 = 1'b1; d_3 = 3'b101; d_8 = 8'b10101010; #10;
+        if (q_1 != 1'b1 || q_3 != 3'b101 || q_8 != 8'b10101010) begin
+            $display("Test Case 4 Failed");
+        end else begin
+            $display("Test Case 4 Passed");
+        end
+
+        // Test reset
+        rst = 1; we = 1; d_1 = 1'b1; d_3 = 3'b111; d_8 = 8'b11111111; #10;
+        if (q_1 != 1'b0 || q_3 != 3'b000 || q_8 != 8'b00000000) begin
+            $display("Test Case 5 Failed");
+        end else begin
+            $display("Test Case 5 Passed");
+        end
+
+         
         $finish;
     end
 endmodule

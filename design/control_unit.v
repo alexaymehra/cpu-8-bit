@@ -1,9 +1,9 @@
 module control_unit(
     input wire [7:0] instr,         // Instruction from instruction register
-    input wire [7:0] state,         // Current CPU state
-    input wire zf,                  // Zero flag
-    input wire reset,
-    output reg [7:0] next_state,    // Next state for the CPU
+    input wire [2:0] state,         // Current CPU state
+    input wire zf,                  // Zero flag current value
+    input wire reset,               // Reset signal
+    output reg [2:0] next_state,    // Next state for the CPU
     output reg pc_we,               // Write enable for program counter
     output reg pc_sel,              // Select signal for program counter input
     output reg [3:0] pc_offset,     // Offset for program counter (for JUMP and JUMPz)

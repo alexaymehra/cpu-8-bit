@@ -1,22 +1,18 @@
 `timescale 1ns / 1ps
 module alu_tb;
 
-    // Testbench signals
     reg [2:0] opcode;
     reg [7:0] a;
     reg [7:0] b;
-    wire [7:0] res;
-    wire zero_flag;
-    wire overflow_flag;
+    wire [7:0] y;
+    wire zf;
 
-    // Instantiate the Device Under Test (DUT)
-    alu dut (
+    alu alu_unit (
         .opcode(opcode),
         .a(a),
         .b(b),
-        .res(res),
-        .zero_flag(zero_flag),
-        .overflow_flag(overflow_flag)
+        .y(y),
+        .zf(zf)
     );
 
     initial begin
@@ -25,50 +21,31 @@ module alu_tb;
     end
 
     initial begin
-        // Test case 1: ADD operation without overflow
-        opcode = 3'b000; // ADD
-        a = 8'b00001111; // 15
-        b = 8'b00000001; // 1
-        #10;
-        if (res != 8'b00010000 || zero_flag != 0 || overflow_flag != 0) begin
-            $display("Test case 1 failed: ADD without overflow");
-        end
+        $monitor("opcode: %b, a: %b, b: %b, y: %b, zf: %b", opcode, a, b, y, zf);
 
-        // Test case 2: ADD operation with overflow
-        opcode = 3'b000; // ADD
-        a = 8'b01111111; // 127
-        b = 8'b00000001; // 1
-        #10;
-        if (res != 8'b10000000 || zero_flag != 0 || overflow_flag != 1) begin
-            $display("Test case 2 failed: ADD with overflow");
-        end
+        opcode = 3'b000; a = 8'b01010101; b = 8'b10101010; #10;
+        if (y != 8'b11111111 || zf != 0) $display("Test Case 1 Failed");
+        else $display("Test Case 1 Passed");
 
-        // Test case 3: ADD operation with zero 
-        opcode = 3'b000; // ADD
-        a = 8'b11111111; // -1
-        b = 8'b00000001; // 1
-        #10;
-        if (res != 8'b00000000 || zero_flag != 1 || overflow_flag != 0) begin
-            $display("Test case 3 failed: ADD resulting in zero");
-        end
+        opcode = 3'b000; a = 8'b11111111; b = 8'b00000001; #10;
+        if (y != 8'b00000000 || zf != 1) $display("Test Case 2 Failed");
+        else $display("Test Case 2 Passed");
 
-        // Test case 4: AND operation
-        opcode = 3'b001; // AND
-        a = 8'b11001100; // 204
-        b = 8'b10101010; // 170
-        #10;  
-        if (res != 8'b10001000 || zero_flag != 0 || overflow_flag != 0) begin
-            $display("Test case 4 failed: AND operation");
-        end              
+        opcode = 3'b001; a = 8'b11001100; b = 8'b10101010; #10;  
+        if (y != 8'b10001000 || zf != 0) $display("Test Case 3 Failed");
+        else $display("Test Case 3 Passed");
 
-        // Test case 5: NOT operation
-        opcode = 3'b010; // NOT
-        a = 8'b00001111; // 15
-        b = 8'b00000000; // unused for NOT
-        #10;
-        if (res != 8'b11110000 || zero_flag != 0 || overflow_flag != 0) begin
-            $display("Test case 5 failed: NOT operation");
-        end
+        opcode = 3'b001; a = 8'b10101010; b = 8'b01010101; #10;  
+        if (y != 8'b00000000 || zf != 1) $display("Test Case 4 Failed");
+        else $display("Test Case 4 Passed");
+
+        opcode = 3'b010; a = 8'b11001100; b = 8'b00000000; #10;  
+        if (y != 8'b00110011 || zf != 0) $display("Test Case 5 Failed");
+        else $display("Test Case 5 Passed");
+
+        opcode = 3'b010; a = 8'b11111111; b = 8'b10101010; #10;  
+        if (y != 8'b00000000 || zf != 1) $display("Test Case 6 Failed");
+        else $display("Test Case 6 Passed");
 
         $finish;
     end

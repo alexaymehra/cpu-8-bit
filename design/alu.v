@@ -3,7 +3,7 @@ module alu(
     input wire [7:0] a,             // First operand (8 bits)
     input wire [7:0] b,             // Second operand (8 bits)
     output reg [7:0] y,             // Result (8 bits)
-    output reg zf,                  // Zero flag
+    output reg zf                   // Zero flag
 );
 
     localparam ADD = 3'b000;        // ADD opcode
