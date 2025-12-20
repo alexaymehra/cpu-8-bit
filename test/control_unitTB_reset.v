@@ -9,6 +9,7 @@ module tb_control_unit_reset;
     wire [2:0] next_state;
     wire pc_we;
     wire pc_sel;
+    wire pc_jmp_sel;
     wire [3:0] pc_offset;
     wire addr_sel;
     wire [3:0] addr_offset;
@@ -41,6 +42,8 @@ module tb_control_unit_reset;
         .reset(reset),
         .next_state(next_state),
         .pc_we(pc_we),
+        .pc_sel(pc_sel),
+        .pc_jmp_sel(pc_jmp_sel),
         .pc_offset(pc_offset),
         .addr_sel(addr_sel),
         .addr_offset(addr_offset),
@@ -87,6 +90,11 @@ module tb_control_unit_reset;
 
         if (pc_sel != 0) begin
             $display("Test %0d Failed: pc_sel", test_num);
+            failed = 1;
+        end
+
+        if (pc_jmp_sel != 0) begin
+            $display("Test %0d Failed: pc_jmp_sel", test_num);
             failed = 1;
         end
 

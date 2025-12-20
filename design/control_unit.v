@@ -6,7 +6,8 @@ module control_unit(
     output reg [2:0] next_state,    // Next state for the CPU
     output reg pc_we,               // Write enable for program counter
     output reg pc_sel,              // Select signal for program counter input
-    output reg [3:0] pc_offset,     // Offset for program counter (for JUMP and JUMPz)
+    output reg pc_jmp_sel,          // Select register to use for JUMP or JUMPz
+    output reg [3:0] pc_offset,     // Offset for JUMP or JUMPz
     output reg addr_sel,            // Select signal for memory address input
     output reg [3:0] addr_offset,   // Offset for memory address (for LOAD and STORE)
     output reg mem_sel,             // Select register (A or B) for memory data input (for STORE)
@@ -48,6 +49,7 @@ module control_unit(
         // Default values
         pc_we = 0;              // No write to PC
         pc_sel = 0;             // PC = PC + 1
+        pc_jmp_sel = 0;         // Register A used for JUMP or JUMPz
         pc_offset = 4'b0000;    // No offset for PC     
         addr_sel = 0;           // Select PC value for address
         addr_offset = 4'b0000;  // No offset for address
@@ -128,15 +130,17 @@ module control_unit(
                             next_state = WRITEBACK;
                         end
                         JUMP: begin
-                            pc_offset = instr[3:0];     // PC = PC + offset
+                            pc_jmp_sel = instr[4];      // Select A or B register for JUMP
+                            pc_offset = instr[3:0];     // Additional JUMP offset
                             pc_sel = 1;                 // Select jump address for PC
                             pc_we = 1;                  // Allow write to PC
                             next_state = FETCH;
                         end
                         JUMPz: begin
                             if (zf == 1) begin
-                                pc_offset = instr[3:0]; // PC = PC + offset
-                                pc_sel = 1;             // Select jump address for PC
+                                pc_jmp_sel = instr[4];  // Select A or B register for JUMPz
+                                pc_offset = instr[3:0]; // Additional JUMPz offset
+                                pc_sel = 1;             // Select jumpz address for PC
                                 pc_we = 1;              // Allow write to PC
                             end
                             next_state = FETCH;
@@ -152,8 +156,8 @@ module control_unit(
 
                     case (instr[7:5])
                         LOAD: begin
-                            addr_offset = instr[3:0]; // Set address offset
-                            addr_sel = 1;             // Select PC + offset for address
+                            addr_offset = instr[3:0];   // Set address offset
+                            addr_sel = 1;               // Select PC + offset for address
                             next_state = WRITEBACK;
                         end
 

@@ -10,7 +10,6 @@ Complete 8-bit CPU with simple ISA. Von Neumann Architecture.
 
 
 ## Todo
-- Testbench EXECUTE on control unit
 - Testbench MEMORY on control unit
 - Testbench WRITEBACK on control unit
 - Testbench HALT_STATE on control unit
