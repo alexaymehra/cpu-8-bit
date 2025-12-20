@@ -1,4 +1,4 @@
-module cpu (
+module cpu_old (
     input wire clk,                 // Clock input
     input wire reset,               // Synchronous reset
     output reg halt                 // HALT signal    
@@ -149,7 +149,11 @@ module cpu (
 
             DECODE: begin                   // Determine which instrucion this is
                 case (ir[7:5])
-                    ADD, AND, NOT: begin            // ALU operations
+                    ADD, AND: begin                 // ALU operations
+                        next_state = EXECUTE;
+                    end
+
+                    NOT: begin                      // NOT
                         next_state = EXECUTE;
                     end
 

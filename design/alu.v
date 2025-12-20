@@ -1,40 +1,35 @@
-`timescale 1ns / 1ps
-module alu #(
-    parameter WIDTH = 8
-)(
+module alu(
     input wire [2:0] opcode,        // Operation code (3 bits)
-    input wire [WIDTH-1:0] a,       // First operand (WIDTH bits)
-    input wire [WIDTH-1:0] b,       // Second operand (WIDTH bits)
-    output reg [WIDTH-1:0] res,     // Result (WIDTH bits)
-    output reg zero_flag,           // Zero flag
-    output reg overflow_flag        // Overflow flag
+    input wire [7:0] a,             // First operand (8 bits)
+    input wire [7:0] b,             // Second operand (8 bits)
+    output reg [7:0] y,             // Result (8 bits)
+    output reg zf,                  // Zero flag
 );
 
+    localparam ADD = 3'b000;        // ADD opcode
+    localparam AND = 3'b001;        // AND opcode
+    localparam NOT = 3'b010;        // NOT opcode
+
 always @(*) begin
-    // Default flag values
-    zero_flag = 0;
-    overflow_flag = 0;
+    zf = 0;
 
     case (opcode)
-        3'b000: begin           // ADD
-            res = a + b;
-            // if operands have same sign but result has different sign, overflow occured
-            overflow_flag = ((a[WIDTH-1] == b[WIDTH-1]) && (res[WIDTH-1] != a[WIDTH-1]));
+        ADD: begin             
+            y = a + b;
         end
-        3'b001: begin           // AND
-            res = a & b;
+        AND: begin              
+            y = a & b;
         end
-        3'b010: begin           // NOT
-            res = ~a;
+        NOT: begin              
+            y = ~a;
         end
-        default: begin          // Undefined opcodes
-            res = {WIDTH{1'b0}};
+        default: begin              // Undefined opcodes
+            y = 8'b00000000;
         end
     endcase
 
-    // Set zero flag
-    if (res == {WIDTH{1'b0}}) begin
-        zero_flag = 1;
+    if (y == 8'b00000000) begin
+        zf = 1;
     end
 end
 endmodule
