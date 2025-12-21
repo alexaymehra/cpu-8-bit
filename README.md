@@ -8,11 +8,11 @@ Complete 8-bit CPU with simple ISA. Von Neumann Architecture.
 
 ## About
 
+**Instruction Set Architecture**
+[![Manual Preview](./docs/isa_manual_cover.png)](./docs/isa_manual.pdf)
+*Click the image above to open the full PDF specification.*
 
 ## Todo
 - Write test programs for CPU module
 - Verify correction function of full CPU
 - Add documentation on github
-
-
-[Click here to view the PDF Manual](./docs/isa_manual.pdf)
