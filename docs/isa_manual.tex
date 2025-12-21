@@ -1,0 +1,264 @@
+\documentclass{article}
+\usepackage{graphicx} % Required for inserting images
+\usepackage{bytefield}
+\usepackage[none]{hyphenat}
+
+\title{8-bit CPU}
+\author{Alexay Mehra}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section{Overview}
+The Instruction Set Architecture (ISA) of the 8-bit CPU is defined as follows:
+
+\paragraph{Memory Address Space}The memory address space is defined by an 8-bit architecture, corresponding to $2^8$ (256) unique locations. Each location contains one word (8 bits), representing either an instruction or data. Addresses are numbered from 0 (x00) to 255 (xFF).
+
+\paragraph{Bit Numbering} Bits are numbered from right to left, starting with bit 0. In an 8-bit word, the rightmost bit (the least significant bit) is bit 0  and the leftmost bit (the most significant bit) is bit 7.
+
+\paragraph{Instruction Register (IR)} An 8-bit register that contains the current \\ instruction to be processed. Instructions are exactly 8 bits wide. Bits [7:5] specify the opcode (the operation to be performed), while bits [4:0] provide other information, such as register identifiers or immediate values (offsets). The specific bit-level formats are detailed in Figure \ref{fig:isa}.
+
+\paragraph{Program Counter (PC)} An 8-bit register that contains the address of the next instruction to be fetched and processed. Under normal execution, the PC increments by 1 after each instruction fetch.
+
+\paragraph{General Purpose Registers} The CPU contains two 8-bit general-purpose registers, identified as A and B. In the instruction format, these are represented by the DR (Destination Register), SR (Source Register), or BaseR fields. A bit value of 0 identifies A, and a bit value of 1 identifies B.
+
+\paragraph{Zero Flag Register (ZF Register)} A 1-bit register that indicates if the result of the previous arithmetic or logical operation resulted in 0. Only ALU (Arithmetic Logic Unit) instructions (ADD, AND, and NOT) set this condition. All other instructions leave this condition unchanged.
+
+\newpage
+
+\paragraph{ALU Instructions}  These perform arithmetic or logic operations on data stored in registers:
+\begin{itemize}
+    \item \textbf{ADD}: Performs 2's complement addition.
+    \item \textbf{AND}: Performs a bitwise logical AND.
+    \item \textbf{NOT}: Performs a bitwise logical complement (flips the bits).
+\end{itemize}
+
+\paragraph{Data Movement Instructions} These move data between memory and registers using a 4-bit (positive-only) PC-relative offset:
+\begin{itemize}
+    \item \textbf{LOAD}: Copies data from memory into a Destination Register (DR).
+    \item \textbf{STORE}: Copies data from a Source Register (SR) into a memory location.
+\end{itemize}
+
+\paragraph{Control Instructions}These alter the sequence of execution by loading a new address into the Program Counter that is specified by BaseR and a 4-bit (positive-only) offset:
+\begin{itemize}
+    \item \textbf{JUMP}: An unconditional branch to the specified address.
+    \item \textbf{JUMPz}: A conditional branch that occurs only if the zero flag is set.
+\end{itemize}
+
+
+\begin{figure}[h]               % [h] tells LaTeX to try and put it "here"
+\centering
+\begin{bytefield}[endianness = big, bitwidth = 4em, bitformatting=\normalsize]{8}
+    % endianness=big puts bit 15 on the left
+    % bitwidth=2em ensures each bit has enough horizontal space
+    \\ \\ \bitheader{0-7} \\
+    
+    \hspace{-5em} \raisebox{1ex}{ADD} \bitbox{3}{0~~~~~~~~~~0~~~~~~~~~~0} & \bitbox{1}{DR} & \bitbox{1}{SR1} & \bitbox{1}{SR2} & 
+    \bitbox{2}{0~~~~~~~~~~0} \\  
+
+    \hspace{-5em} \raisebox{1ex}{AND} \bitbox{3}{0~~~~~~~~~~0~~~~~~~~~~1} & \bitbox{1}{DR} & \bitbox{1}{SR1} & \bitbox{1}{SR2} & 
+    \bitbox{2}{0~~~~~~~~~~0} \\
+    
+    \hspace{-5em} \raisebox{1ex}{NOT} \bitbox{3}{0~~~~~~~~~~1~~~~~~~~~~0} & \bitbox{1}{DR} & \bitbox{1}{SR} &  \bitbox{3}{0~~~~~~~~~~0~~~~~~~~~~0} \\
+
+    \hspace{-5em} \raisebox{1ex}{LOAD} \bitbox{3}{0~~~~~~~~~~1~~~~~~~~~~1} & \bitbox{1}{DR} & \bitbox{4}{PCoffset4} \\
+
+    \hspace{-5em} \raisebox{1ex}{STORE} \bitbox{3}{1~~~~~~~~~~0~~~~~~~~~~0} & \bitbox{1}{SR} & \bitbox{4}{PCoffset4} \\
+
+    \hspace{-5em} \raisebox{1ex}{JUMP} \bitbox{3}{1~~~~~~~~~~0~~~~~~~~~~1} & \bitbox{1}{BaseR} & \bitbox{4}{offset4} \\
+
+    \hspace{-5em} \raisebox{1ex}{JUMPz} \bitbox{3}{1~~~~~~~~~~1~~~~~~~~~~0} & \bitbox{1}{BaseR} & \bitbox{4}{offset4} \\
+
+    \hspace{-5em} \raisebox{1ex}{HALT} \bitbox{3}{1~~~~~~~~~~1~~~~~~~~~~1} & \bitbox{5}{1~~~~~~~~~~1~~~~~~~~~~1~~~~~~~~~~1~~~~~~~~~~1}  \\
+    
+\end{bytefield}
+\label{fig:isa}        % The unique label for cross-referencing
+\caption{Format of the entire 8-bit CPU instruction set.}
+\end{figure}
+
+\newpage
+
+\section{Instruction Set Specifications}
+
+{\Large \textbf{ADD}} \vspace{1em}
+
+{\large \textbf{Assembler Format}} \vspace{0.5em} \\
+\vspace{1.5em} \hspace{1.25em}ADD~~~DR, SR1, SR2 
+
+{\large \textbf{Encoding}} \vspace{0.5em}
+
+\begin{bytefield}[endianness = big, bitwidth = 4em, bitformatting=\normalsize]{8}
+    \\ \bitheader{0-7} \\
+    \bitbox{3}{0~~~~~~~~~~0~~~~~~~~~~0} & \bitbox{1}{DR} & \bitbox{1}{SR1} & \bitbox{1}{SR2} & 
+    \bitbox{2}{0~~~~~~~~~~0} \\ 
+\end{bytefield}
+
+{\large \textbf{Operation}} \vspace{0.5em} \\
+\vspace{1.5em} \hspace{1.25em}DR = SR1 + SR2
+
+{\large \textbf{Examples}} \vspace{0.5em} \\
+\vspace{0em} \hspace{1.25em}ADD~~A, B, A~~~~~; A $\leftarrow$ B + A (00001000)\\
+\vspace{3em} \hspace{1.25em}ADD~~B, A, A~~~~~; B $\leftarrow$ A + A (00010000)
+
+\noindent {\Large \textbf{AND}} \vspace{1em}
+
+{\large \textbf{Assembler Format}} \vspace{0.5em} \\
+\vspace{1.5em} \hspace{1.25em}AND~~~DR, SR1, SR2 
+
+{\large \textbf{Encoding}} \vspace{0.5em}
+
+\begin{bytefield}[endianness = big, bitwidth = 4em, bitformatting=\normalsize]{8}
+    \\ \bitheader{0-7} \\
+    \bitbox{3}{0~~~~~~~~~~0~~~~~~~~~~1} & \bitbox{1}{DR} & \bitbox{1}{SR1} & \bitbox{1}{SR2} & 
+    \bitbox{2}{0~~~~~~~~~~0} \\ 
+\end{bytefield}
+
+{\large \textbf{Operation}} \vspace{0.5em} \\
+\vspace{1.5em} \hspace{1.25em}DR = SR1 AND SR2
+
+{\large \textbf{Examples}} \vspace{0.5em} \\
+\vspace{0em} \hspace{1.25em}AND~~A, B, A~~~~~; A $\leftarrow$ B AND A (00101000)\\
+\vspace{1.5em} \hspace{1.25em}AND~~B, A, B~~~~~; B $\leftarrow$ A AND B (00110100)
+
+
+
+\newpage
+
+
+
+\noindent {\Large \textbf{NOT}} \vspace{1em}
+
+{\large \textbf{Assembler Format}} \vspace{0.5em} \\
+\vspace{1.5em} \hspace{1.25em}NOT~~~DR, SR
+
+{\large \textbf{Encoding}} \vspace{0.5em}
+
+\begin{bytefield}[endianness = big, bitwidth = 4em, bitformatting=\normalsize]{8}
+    \\ \bitheader{0-7} \\
+    \bitbox{3}{0~~~~~~~~~~1~~~~~~~~~~0} & \bitbox{1}{DR} & \bitbox{1}{SR} &  \bitbox{3}{0~~~~~~~~~~0~~~~~~~~~~0} \\ 
+\end{bytefield}
+
+{\large \textbf{Operation}} \vspace{0.5em} \\
+\vspace{1.5em} \hspace{1.25em}DR = NOT SR
+
+{\large \textbf{Examples}} \vspace{0.5em} \\
+\vspace{0em} \hspace{1.25em}NOT~~A, A~~~~~; A $\leftarrow$ NOT A (01000000)\\
+\vspace{3em} \hspace{1.25em}NOT~~B, A~~~~~; B $\leftarrow$ NOT A (01010000)
+
+\noindent {\Large \textbf{LOAD}} \vspace{1em}
+
+{\large \textbf{Assembler Format}} \vspace{0.5em} \\
+\vspace{1.5em} \hspace{1.25em}LOAD~~~DR, PCoffset4
+
+{\large \textbf{Encoding}} \vspace{0.5em}
+
+\begin{bytefield}[endianness = big, bitwidth = 4em, bitformatting=\normalsize]{8}
+    \\ \bitheader{0-7} \\
+    \bitbox{3}{0~~~~~~~~~~1~~~~~~~~~~1} & \bitbox{1}{DR} & \bitbox{4}{PCoffset4} \\ 
+\end{bytefield}
+
+{\large \textbf{Operation}} \vspace{0.5em} \\
+\vspace{0em} \hspace{1.25em}DR = mem[PC + ZEXT(PCoffset4)] \\
+\vspace{0em} \hspace{1.25em}Note: The PC is incremented during the instruction fetch phase, \\ 
+\vspace{1.5em} \hspace{4.25em}before the evaluation of the effective address.
+
+{\large \textbf{Examples}} \vspace{0.5em} \\
+\vspace{0em} \hspace{1.25em}LOAD~~A, 1111~~~~~; A $\leftarrow$ mem[PC + 15] (01101111)\\
+\vspace{1.5em} \hspace{1.25em}LOAD~~B, 1010~~~~~; B $\leftarrow$ mem[PC + 10] (01111010)
+
+
+
+\newpage
+
+
+
+
+\noindent {\Large \textbf{STORE}} \vspace{1em}
+
+{\large \textbf{Assembler Format}} \vspace{0.5em} \\
+\vspace{1.5em} \hspace{1.25em}STORE~~~SR, PCoffset4
+
+{\large \textbf{Encoding}} \vspace{0.5em}
+
+\begin{bytefield}[endianness = big, bitwidth = 4em, bitformatting=\normalsize]{8}
+    \\ \bitheader{0-7} \\
+    \bitbox{3}{1~~~~~~~~~~0~~~~~~~~~~0} & \bitbox{1}{SR} & \bitbox{4}{PCoffset4} \\ 
+\end{bytefield}
+
+{\large \textbf{Operation}} \vspace{0.5em} \\
+\vspace{0em} \hspace{1.25em}mem[PC + ZEXT(PCoffset4)] = SR \\
+\vspace{0em} \hspace{1.25em}Note: The PC is incremented during the instruction fetch phase, \\ 
+\vspace{1.5em} \hspace{4.25em}before the evaluation of the effective address.
+
+{\large \textbf{Examples}} \vspace{0.5em} \\
+\vspace{0em} \hspace{1.25em}STORE~~A, 1111~~~~~; mem[PC + 15] $\leftarrow$ A (10001111)\\
+\vspace{3em} \hspace{1.25em}STORE~~B, 1010~~~~~; mem[PC + 10] $\leftarrow$ B (10011010)
+
+\noindent {\Large \textbf{JUMP}} \vspace{1em}
+
+{\large \textbf{Assembler Format}} \vspace{0.5em} \\
+\vspace{1.5em} \hspace{1.25em}JUMP~~~BaseR, offset4
+
+{\large \textbf{Encoding}} \vspace{0.5em}
+
+\begin{bytefield}[endianness = big, bitwidth = 4em, bitformatting=\normalsize]{8}
+    \\ \bitheader{0-7} \\
+    \bitbox{3}{1~~~~~~~~~~0~~~~~~~~~~1} & \bitbox{1}{BaseR} & \bitbox{4}{offset4} \\ 
+\end{bytefield}
+
+{\large \textbf{Operation}} \vspace{0.5em} \\
+\vspace{1.5em} \hspace{1.25em}PC = BaseR + ZEXT(offset4)
+
+{\large \textbf{Examples}} \vspace{0.5em} \\
+\vspace{0em} \hspace{1.25em}JUMP~~A, 1111~~~~~; PC $\leftarrow$ A + 15 (10101111)\\
+\vspace{1.5em} \hspace{1.25em}JUMP~~B, 1010~~~~~; PC $\leftarrow$ B + 10 (10111010)
+
+
+
+\newpage
+
+
+
+\noindent {\Large \textbf{JUMPz}} \vspace{1em}
+
+{\large \textbf{Assembler Format}} \vspace{0.5em} \\
+\vspace{1.5em} \hspace{1.25em}JUMPz~~~BaseR, offset4
+
+{\large \textbf{Encoding}} \vspace{0.5em}
+
+\begin{bytefield}[endianness = big, bitwidth = 4em, bitformatting=\normalsize]{8}
+    \\ \bitheader{0-7} \\
+    \bitbox{3}{1~~~~~~~~~~1~~~~~~~~~~0} & \bitbox{1}{BaseR} & \bitbox{4}{offset4} \\
+\end{bytefield}
+
+{\large \textbf{Operation}} \vspace{0.5em} \\
+\vspace{1.5em} \hspace{1.25em}if (zf) PC = BaseR + ZEXT(offset4)
+
+{\large \textbf{Examples}} \vspace{0.5em} \\
+\vspace{0em} \hspace{1.25em}JUMPz~~A, 1111~~~~~; (if zf = 1) PC $\leftarrow$ A + 15 (11001111)\\
+\vspace{3em} \hspace{1.25em}JUMPz~~B, 1010~~~~~; (if zf = 1) PC $\leftarrow$ B + 10 (11011010)
+
+\noindent {\Large \textbf{HALT}} \vspace{1em}
+
+{\large \textbf{Assembler Format}} \vspace{0.5em} \\
+\vspace{1.5em} \hspace{1.25em}HALT
+
+{\large \textbf{Encoding}} \vspace{0.5em}
+
+\begin{bytefield}[endianness = big, bitwidth = 4em, bitformatting=\normalsize]{8}
+    \\ \bitheader{0-7} \\
+    \bitbox{3}{1~~~~~~~~~~1~~~~~~~~~~1} & \bitbox{5}{1~~~~~~~~~~1~~~~~~~~~~1~~~~~~~~~~1~~~~~~~~~~1} \\
+\end{bytefield}
+
+{\large \textbf{Operation}} \vspace{0.5em} \\
+\vspace{1.5em} \hspace{1.25em}Stops execution and holds the processor in an idle state until reset.
+
+{\large \textbf{Examples}} \vspace{0.5em} \\
+\vspace{0em} \hspace{1.25em}HALT~~~~~; (11111111)
+
+
+
+
+\end{document}
