@@ -21,4 +21,6 @@ Complete 8-bit CPU with simple ISA. Von Neumann Architecture.
 ## Todo
 - Write test programs for CPU module
 - Verify correction function of full CPU
-- Complete documentation
+- Document how to use this repo
+- Update and insert schematic
+- Add simple compiler to turn text into binary program file

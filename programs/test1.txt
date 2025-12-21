@@ -1,0 +1,4 @@
+ADD A, A, A     ; test comment 1
+AND B, B, B     ; test comment 2
+; test comment 3
+HALT            ; test comment 4
