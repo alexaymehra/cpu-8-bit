@@ -7,13 +7,13 @@ Complete 8-bit CPU with simple ISA. Von Neumann Architecture.
 - **Platform:** Windows Subsystem for Linux 2 (WSL2)
 
 ## About
-
-**Instruction Set Architecture**
-<br>
-<a href="./docs/isa_manual.pdf">
-  <img src="./docs/isa_manual_cover.png" width="600" alt="Manual Preview">
-</a>
-<br>
+<p align = "center">
+  <br>
+  <a href="./docs/isa_manual.pdf">
+    <img src="./docs/isa_manual_cover.png" width="700" alt="Manual Preview">
+  </a>
+  <br>
+</p>
 *Click the image above to open the full PDF specification.*
 
 ## Todo
