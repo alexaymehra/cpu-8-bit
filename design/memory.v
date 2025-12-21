@@ -14,4 +14,8 @@ module memory_256x8 (
         end
         d_o <= mem[addr];           // Updated data will be read immediately
     end
+
+    initial begin
+        $readmemb("../programs/test_program.b", mem, 8'd0, 8'd2);
+    end
 endmodule
