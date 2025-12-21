@@ -11,7 +11,7 @@ Complete 8-bit CPU with simple ISA. Von Neumann Architecture.
 <p align = "center">
   <br>
   <a href="./docs/isa_manual.pdf">
-    <img src="./docs/isa_manual_cover.png" width="700" alt="Manual Preview">
+    <img src="./docs/isa_manual_cover.png" width="550" alt="Manual Preview">
   </a>
   <br>
 </p>
