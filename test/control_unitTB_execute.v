@@ -301,7 +301,7 @@ module tb_control_unit_execute;
         instr = 8'b10101111; #10;   // JUMP A, 15
         check_execute(
             7,          // test_num
-            FETCH,      // exp_next_state
+            IDLE,       // exp_next_state
             3'b000,     // exp_alu_opcode
             1'b0,       // exp_alu_sel_a
             1'b0,       // exp_alu_sel_b
@@ -316,7 +316,7 @@ module tb_control_unit_execute;
         instr = 8'b10110101; #10;   // JUMP B, 5
         check_execute(
             8,          // test_num
-            FETCH,      // exp_next_state
+            IDLE,       // exp_next_state
             3'b000,     // exp_alu_opcode
             1'b0,       // exp_alu_sel_a
             1'b0,       // exp_alu_sel_b
@@ -331,7 +331,7 @@ module tb_control_unit_execute;
         instr = 8'b11010011; #10;   // JUMPz B, 3 (zf = 0)
         check_execute(
             9,          // test_num
-            FETCH,      // exp_next_state
+            IDLE,       // exp_next_state
             3'b000,     // exp_alu_opcode
             1'b0,       // exp_alu_sel_a
             1'b0,       // exp_alu_sel_b
@@ -346,7 +346,7 @@ module tb_control_unit_execute;
         zf = 1; #10;                // JUMPz B, 3 (zf = 1)
         check_execute(
             10,         // test_num
-            FETCH,      // exp_next_state
+            IDLE,       // exp_next_state
             3'b000,     // exp_alu_opcode
             1'b0,       // exp_alu_sel_a
             1'b0,       // exp_alu_sel_b

@@ -1,10 +1,19 @@
 ; Instructions
-LOAD  A, 0100    ; Address 0: PC is 1. Target is Addr 5 (1 + 4 = 5).
-ADD   B, A, A    ; Address 1: PC is 2. B = 5 + 5 (00001010).
-STORE B, 0011    ; Address 2: PC is 3. Target is Addr 6 (3 + 3 = 6).
-NOT B, B         ; Address 3: PC is 4. B = ~B (11110101)
-HALT             ; Address 4: PC is 5. Halt.
+LOAD A, 1100    ; Address  0: PC is  1. Load mem[1+12] (3) into A.
+ADD B, A, A     ; Address  1: B = A + A (6).
+STORE B, 1100   ; Address  2: PC is  3. Store B (6) in mem[3+12].
+NOT B, B        ; Address  3: B = ~B (11111001).
+AND B, A, B     ; Address  4: B = A AND B (00000001).
+JUMP B, 0110    ; Address  5: PC = B + 6 (7)
+LOAD A, 0110    ; Address  6: PC is  7. Load mem[7+6] (3) into A. (should be skipped)
+LOAD B, 0110    ; Address  7: PC is  8. Load mem[8+6] (16) into B.
+NOT A, B        ; Address  8: A = ~B (11101111)
+AND B, A, B     ; Address  9: B = A AND B (00000000)
+JUMPz B, 1100   ; Address 10: (if zf = 1) PC = B + 12 (12). (jump should occur)
+ADD B, A, B     ; Address 11: B = A + B (11101111). (should be skipped)
+HALT            ; Address 12: Halt.
 
 ; Data
-00000101         ; Address 5: The number 5
-00000000         ; Address 6: Result will be saved here
+00000011        ; Address 13: 3
+00010000        ; Address 14: 16
+00000000        ; Address 15: 6 will be stored here

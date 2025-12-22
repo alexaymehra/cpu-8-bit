@@ -56,13 +56,14 @@ def assemble(input_file, output_file):
                 # create LOAD or STORE binary
                 elif instr in ["LOAD", "STORE"]:
                     reg = REGS[tokens[1].upper()]
-                    offset_bin = tokens[2] 
-                    binary = f"{OPCODES[instr]}{reg}{offset_bin}"
+                    pc_offset_bin = tokens[2] 
+                    binary = f"{OPCODES[instr]}{reg}{pc_offset_bin}"
 
                 # create JUMP or JUMPz binary
                 elif instr in ["JUMP", "JUMPZ"]:
                     baser = REGS[tokens[1].upper()]
-                    binary = f"{OPCODES[instr]}{baser}0000"
+                    offset_bin = tokens[2]
+                    binary = f"{OPCODES[instr]}{baser}{offset_bin}"
 
                 # if an instruction was created
                 if binary:

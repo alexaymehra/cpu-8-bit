@@ -135,7 +135,7 @@ module control_unit(
                             pc_offset = instr[3:0];     // Additional JUMP offset
                             pc_sel = 1;                 // Select jump address for PC
                             pc_we = 1;                  // Allow write to PC
-                            next_state = FETCH;
+                            next_state = IDLE;
                         end
                         JUMPz: begin
                             if (zf == 1) begin
@@ -144,7 +144,7 @@ module control_unit(
                                 pc_sel = 1;             // Select jumpz address for PC
                                 pc_we = 1;              // Allow write to PC
                             end
-                            next_state = FETCH;
+                            next_state = IDLE;
                         end
                     endcase
                 end

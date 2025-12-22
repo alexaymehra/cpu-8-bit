@@ -16,6 +16,6 @@ module memory_256x8 (
     end
 
     initial begin
-        $readmemb("../programs/test1.b", mem, 8'd0, 8'd6);
+        $readmemb("../programs/test1.b", mem, 8'd0, 8'd15);
     end
 endmodule
