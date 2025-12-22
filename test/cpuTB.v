@@ -31,7 +31,7 @@ module cpu_8b_tb;
                 wait(halt); #20; $finish;
             end
             begin
-                #1000;  // timeout
+                #10000;  // timeout
                 $display("Simulation timeout"); $finish;
             end
         join

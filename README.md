@@ -19,7 +19,6 @@ Complete 8-bit CPU with simple ISA. Von Neumann Architecture.
 *Click the image above to open the full PDF specification.*
 
 ## Todo
-- Add usage guide
 - Update and insert schematic
-- Polish README
 - Add timing diagram
+- Add usage guide and polish README
