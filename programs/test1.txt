@@ -1,4 +1,10 @@
-ADD A, A, A     ; test comment 1
-AND B, B, B     ; test comment 2
-; test comment 3
-HALT            ; test comment 4
+; Instructions
+LOAD  A, 0100    ; Address 0: PC is 1. Target is Addr 5 (1 + 4 = 5).
+ADD   B, A, A    ; Address 1: PC is 2. B = 5 + 5 (00001010).
+STORE B, 0011    ; Address 2: PC is 3. Target is Addr 6 (3 + 3 = 6).
+NOT B, B         ; Address 3: PC is 4. B = ~B (11110101)
+HALT             ; Address 4: PC is 5. Halt.
+
+; Data
+00000101         ; Address 5: The number 5
+00000000         ; Address 6: Result will be saved here

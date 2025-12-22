@@ -32,8 +32,12 @@ def assemble(input_file, output_file):
             binary = ""
 
             try:
+                # 1. Check if the line is already pure binary data (8 bits)
+                if all(c in '01' for c in instr) and len(instr) == 8:
+                    binary = instr
+
                 # create HALT binary
-                if instr == "HALT":
+                elif instr == "HALT":
                     binary = "11111111"
 
                 # create ADD or AND binary

@@ -46,6 +46,10 @@ CONTROL_HALT_OUT   = control_unit_halt.vvp
 CONTROL_HALT_FILES = $(CURDIR)/../design/control_unit.v \
 			  		 $(CURDIR)/../test/control_unitTB_halt.v 
 
+CONTROL_IDLE_OUT   = control_unit_idle.vvp
+CONTROL_IDLE_FILES = $(CURDIR)/../design/control_unit.v \
+			  		 $(CURDIR)/../test/control_unitTB_idle.v 
+
 MEMORY_OUT   = memory.vvp
 MEMORY_FILES = $(CURDIR)/../design/memory.v \
 			   $(CURDIR)/../test/memoryTB.v
@@ -117,6 +121,11 @@ ctrl_halt:
 	$(SIM) -o $(CONTROL_HALT_OUT) $(CONTROL_HALT_FILES)
 	vvp $(CONTROL_HALT_OUT)
 	gtkwave control_unitTB_halt.vcd
+
+ctrl_idle:
+	$(SIM) -o $(CONTROL_IDLE_OUT) $(CONTROL_IDLE_FILES)
+	vvp $(CONTROL_IDLE_OUT)
+	gtkwave control_unitTB_idle.vcd
 
 memory:
 	$(SIM) -o $(MEMORY_OUT) $(MEMORY_FILES)

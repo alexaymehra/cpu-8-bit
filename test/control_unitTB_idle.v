@@ -1,5 +1,5 @@
 `timescale 1ns / 1ps
-module tb_control_unit_reset;
+module tb_control_unit_idle;
 
     reg [7:0] instr;
     reg [2:0] state;
@@ -64,8 +64,8 @@ module tb_control_unit_reset;
     );
 
     initial begin
-        $dumpfile("control_unitTB_reset.vcd");
-        $dumpvars(0, tb_control_unit_reset);
+        $dumpfile("control_unitTB_idle.vcd");
+        $dumpvars(0, tb_control_unit_idle);
     end
 
     integer pass_count = 0;
@@ -193,22 +193,24 @@ module tb_control_unit_reset;
 
     initial begin
 
-        // Testing Reset
-        $display("Testing Reset\n");
-        reset = 1;
-        instr = 8'b00000000; state = FETCH; zf = 0; #10;
+        // Testing Idle
+        $display("Testing IDLE\n");
+        reset = 1; zf = 1; #10; 
+        state = IDLE; reset = 0;
+
+        instr = 8'b00000000; #10;
         check_defaults(1);
-        instr = 8'b00100000; state = DECODE; zf = 1; #10;
+        instr = 8'b00100000; #10;
         check_defaults(2);
-        instr = 8'b01000000; state = EXECUTE; zf = 0; #10;
+        instr = 8'b01000000; #10;
         check_defaults(3);
-        instr = 8'b01100000; state = MEMORY; zf = 1; #10;
+        instr = 8'b01100000; #10;
         check_defaults(4);
-        instr = 8'b10000000; state = WRITEBACK; zf = 0; #10;
+        instr = 8'b10000000; #10;
         check_defaults(5);
-        instr = 8'b10100000; state = HALT_STATE; zf = 1; #10;
+        instr = 8'b10100000; #10;
         check_defaults(6);
-        instr = 8'b11000000; state = IDLE; zf = 0; #10;
+        instr = 8'b11000000; #10;
         check_defaults(7);
 
         $display("=================================");

@@ -43,6 +43,7 @@ module control_unit(
     localparam MEMORY     = 3'b011;
     localparam WRITEBACK  = 3'b100;
     localparam HALT_STATE = 3'b101;
+    localparam IDLE       = 3'b110;
     // -------------------------------------------
     
     always @(*) begin
@@ -166,7 +167,7 @@ module control_unit(
                             addr_sel = 1;               // Select PC + offset for address
                             mem_sel = instr[4];         // Select register A or B for memory input
                             mem_we = 1;                 // Allow write to memory
-                            next_state = FETCH;
+                            next_state = IDLE;
                         end
                     endcase
                 end
@@ -205,6 +206,10 @@ module control_unit(
                 HALT_STATE: begin
                     halt = 1;
                     next_state = HALT_STATE;
+                end
+
+                IDLE: begin
+                    next_state = FETCH;
                 end
             endcase
         end

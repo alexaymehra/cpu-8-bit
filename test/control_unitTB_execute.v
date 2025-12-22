@@ -33,6 +33,7 @@ module tb_control_unit_execute;
     localparam MEMORY     = 3'b011;
     localparam WRITEBACK  = 3'b100;
     localparam HALT_STATE = 3'b101;
+    localparam IDLE       = 3'b110;
     // -------------------------------------------
 
     control_unit control_unit_8b (

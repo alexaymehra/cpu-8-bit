@@ -28,22 +28,40 @@ module memory_load_tb;
     initial begin        
         we = 0; addr = 8'h00; d_i = 8'b00000000; #10;
 
-        if (d_o != 8'b00000000) 
+        if (d_o != 8'b01100100) 
             $display("Test 1 Failed: Got %b", d_o);
         else
             $display("Test 1 Passed");
 
         addr = 8'h01; #10;
-        if (d_o != 8'b00111100) 
+        if (d_o != 8'b00010000) 
             $display("Test 2 Failed: Got %b", d_o);
         else
             $display("Test 2 Passed"); 
         
         addr = 8'h02; #10;
-        if (d_o != 8'b11111111) 
+        if (d_o != 8'b10010011) 
             $display("Test 3 Failed: Got %b", d_o);
         else
             $display("Test 3 Passed"); 
+
+        addr = 8'h03; #10;
+        if (d_o != 8'b01011000) 
+            $display("Test 4 Failed: Got %b", d_o);
+        else
+            $display("Test 4 Passed"); 
+
+        addr = 8'h04; #10;
+        if (d_o != 8'b11111111) 
+            $display("Test 5 Failed: Got %b", d_o);
+        else
+            $display("Test 5 Passed"); 
+
+        addr = 8'h05; #10;
+        if (d_o != 8'b00000101) 
+            $display("Test 6 Failed: Got %b", d_o);
+        else
+            $display("Test 6 Passed");
         
         $finish;
     end

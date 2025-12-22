@@ -24,3 +24,6 @@ Complete 8-bit CPU with simple ISA. Von Neumann Architecture.
 - Document how to use this repo
 - Update and insert schematic
 - Add simple compiler to turn text into binary program file
+
+## Bug Fixes
+- Fixed race condition between Memory Unit and Instruction Register after a STORE instruction. Added an IDLE state after STORE instructions to allow memory data output to settle.

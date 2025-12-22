@@ -33,6 +33,7 @@ module tb_control_unit_memory;
     localparam MEMORY     = 3'b011;
     localparam WRITEBACK  = 3'b100;
     localparam HALT_STATE = 3'b101;
+    localparam IDLE       = 3'b110;
     // -------------------------------------------
 
     control_unit control_unit_8b (
@@ -225,7 +226,7 @@ module tb_control_unit_memory;
         instr = 8'b10001111; #10;   // STORE A, 15
         check_memory(
             3,              // test_num
-            FETCH,          // exp_next_state
+            IDLE,           // exp_next_state
             4'b1111,        // exp_addr_offset
             1'b1,           // exp_addr_sel
             1'b0,           // exp_mem_sel
@@ -235,7 +236,7 @@ module tb_control_unit_memory;
         instr = 8'b10010011; #10;   // STORE B, 3
         check_memory(
             4,              // test_num
-            FETCH,          // exp_next_state
+            IDLE,           // exp_next_state
             4'b0011,        // exp_addr_offset
             1'b1,           // exp_addr_sel
             1'b1,           // exp_mem_sel
