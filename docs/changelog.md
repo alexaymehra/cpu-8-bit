@@ -1,5 +1,10 @@
+12/22/2025
+- Validated full function of CPU through the programs that exhaustively tested every instruction and directly tested consecutive load and store operations 
+- Verified third full program execution (test3)
+- Verified second full program execution (test2)
+
 12/21/2025
-- Verified 1 full program execution (test1)
+- Verified first full program execution (test1)
 - Fixed race condition between Memory Unit and Instruction Register after a JUMP or JUMPz instruction by adding an IDLE state after JUMP and JUMPz instructions to allow memory data output to settle
 - Fixed assembler not including offset for JUMP and JUMPz instructions in the binary file output
 - Fixed race condition between Memory Unit and Instruction Register after a STORE instruction by adding an IDLE state after STORE instructions to allow memory data output to settle

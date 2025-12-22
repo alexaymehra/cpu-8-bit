@@ -1,0 +1,19 @@
+; Instructions
+LOAD A, 1100    ; Address  0: PC is  1. Load mem[1+12] (7) into A.
+ADD B, A, A     ; Address  1: B = A + A (14).
+JUMPz A, 0101   ; Address  2: (if zf = 1) PC = A + 5 (12). (jump shouldn't occur)
+STORE A, 1011   ; Address  3: PC is 4. Store A (7) into mem[4+11]
+AND A, B, A     ; Address  4: A = B AND A (00000110).
+LOAD B, 1000    ; Address  5: PC is 6. Load mem[6+8] (16) into B.
+AND B, A, B     ; Address  6: B = A AND B (00000000).
+JUMPz B, 1001   ; Address  7: (if zf = 1) PC = B + 9 (9). (jump should occur)
+LOAD B, 0100    ; Address  8: PC is 9. Load mem[9+4] (7) into B. (should be skipped)
+NOT B, A        ; Address  9: B = ~A (11111001).
+JUMP A, 0110    ; Address 10: PC = A + 6 (12).
+ADD A, B, A     ; Address 11: A = B + A. (should be skipped)
+HALT            ; Address 12: Halt.
+
+; Data
+00000111        ; Address 13: 7
+00010000        ; Address 14: 16
+00000000        ; Address 15: 7 will be stored here

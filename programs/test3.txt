@@ -1,0 +1,14 @@
+; Instructions
+LOAD A, 0111    ; Address  0: PC is  1. Load mem[1+7] (7) into A.
+ADD A, A, A     ; Address  1: A = A + A (14).
+STORE A, 0111   ; Address  2: PC is  3. Store A (14) into mem[3+7].
+LOAD B, 0110    ; Address  3: PC is  4. Load mem[4+6] (14) into B.
+NOT B, B        ; Address  4: B = ~B (11110001).
+STORE B, 0010   ; Address  5: PC is  6. Store B (11110001) into mem[6+2].
+LOAD A, 0001    ; Address  6: PC is  7. Load mem[7+1] (11110001) into A.
+HALT            ; Address  7: Halt.
+
+; Data
+00000111        ; Address  8: 7, will be overwritten to 11110001.
+00010000        ; Address  9: 16
+00000000        ; Address 10: 14 will be stored here (00001110).
