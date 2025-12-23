@@ -5,20 +5,24 @@ This repository contains a custom-design 8-bit multi-cycle CPU implemented in Ve
 - Custom Instruction Set Architecture (ISA) implemented on a Von Neumann architecture
 - Multi-cycle instruction execution with FSM-based control
 - Modular datapath including:
-  - ALU
-
-This repository contains a custom-designed 8-bit multi-cycle CPU in verilog, including:
-- A custom Instruction Set Architecture that is based on Von Neumann Architecture
-- Modular datapath (ALU, PC, IR, general purpose registers, and memory interface)
-- An seembler to convert human-readable assembly programs into machine code
-- A makefile-based test workflow using Icarus Verilog and GTKWave
+  - Arithmetic Logic Unit (ALU)
+  - Program Counter (PC)
+  - Instruction Register (IR)
+  - Two general-purpose registers
+  - Memory interface
+- Simple assembler to convert assembly into machine code
+- Makefile-based simulation workflow using Icarus Verilog and GTKWave
 
 ## Toolchain:
 - **Editor:** Visual Studio Code
 - **Simulation:** Icarus Verilog 12.0
+- **Waveform Viewer:** GTKWave
+- **Assembler:** Python
 - **Platform:** Windows Subsystem for Linux 2 (WSL2)
 
-`code`
+> ⚠️ **Windows users:** This project is designed to be run in **Linux**.  
+> If you are on Windows, **WSL2 is strongly recommended**.
+
 
 ## Instruction Set Architecture
 
