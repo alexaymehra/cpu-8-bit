@@ -1,4 +1,12 @@
 # 8-bit CPU
+This repository contains a custom-design 8-bit multi-cycle CPU implemented in Verilog, build from the ground up. The verilog design is written at the Register Transfer Level (RTL) and each instruction executes in 4 clock cycles.
+
+**Features**
+- Custom Instruction Set Architecture (ISA) implemented on a Von Neumann architecture
+- Multi-cycle instruction execution with FSM-based control
+- Modular datapath including:
+  - ALU
+
 This repository contains a custom-designed 8-bit multi-cycle CPU in verilog, including:
 - A custom Instruction Set Architecture that is based on Von Neumann Architecture
 - Modular datapath (ALU, PC, IR, general purpose registers, and memory interface)
