@@ -1,10 +1,16 @@
 # 8-bit CPU
-Complete 8-bit CPU with simple ISA. Von Neumann Architecture.
+This repository contains a custom-designed 8-bit multi-cycle CPU in verilog, including:
+- A custom Instruction Set Architecture that is based on Von Neumann Architecture
+- Modular datapath (ALU, PC, IR, general purpose registers, and memory interface)
+- An seembler to convert human-readable assembly programs into machine code
+- A makefile-based test workflow using Icarus Verilog and GTKWave
 
 ## Toolchain:
 - **Editor:** Visual Studio Code
 - **Simulation:** Icarus Verilog 12.0
 - **Platform:** Windows Subsystem for Linux 2 (WSL2)
+
+`code`
 
 ## Instruction Set Architecture
 
