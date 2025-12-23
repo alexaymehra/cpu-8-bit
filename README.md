@@ -5,7 +5,7 @@ This repository contains a custom-design 8-bit multi-cycle CPU implemented in Ve
 - Custom Instruction Set Architecture (ISA) implemented on a Von Neumann architecture
 - Multi-cycle instruction execution with FSM-based control
 - Modular datapath including:
- - ALU
+  - ALU
 
 This repository contains a custom-designed 8-bit multi-cycle CPU in verilog, including:
 - A custom Instruction Set Architecture that is based on Von Neumann Architecture
