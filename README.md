@@ -22,7 +22,7 @@ Complete 8-bit CPU with simple ISA. Von Neumann Architecture.
 <p align = "center">
   <br>
   <a href="./docs/8_bit_cpu_schematic.png">
-    <img src="./docs/8_bit_cpu_schematic.png" width="800" alt="Schematic">
+    <img src="./docs/8_bit_cpu_schematic.png" width="900" alt="Schematic">
   </a>
   <br>
 </p>
