@@ -27,9 +27,8 @@ Complete 8-bit CPU with simple ISA. Von Neumann Architecture.
   <br>
 </p>
 
-*Click the image above to open the full schematic.*
+*Click the image above to open the schematic in full size.*
 
 
 ## Todo
-- Add timing diagram
 - Add usage guide and polish README
