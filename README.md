@@ -6,7 +6,7 @@ Complete 8-bit CPU with simple ISA. Von Neumann Architecture.
 - **Simulation:** Icarus Verilog 12.0
 - **Platform:** Windows Subsystem for Linux 2 (WSL2)
 
-## About
+## Instruction Set Architecture
 
 <p align = "center">
   <br>
@@ -18,7 +18,15 @@ Complete 8-bit CPU with simple ISA. Von Neumann Architecture.
 
 *Click the image above to open the full PDF specification.*
 
+## Schematic
+<p align = "center">
+  <br>
+  <a href="./docs/8_bit_cpu_schematic.png">
+    <img src="./docs/8_bit_cpu_schematic.png" width="550" alt="Schematic">
+  </a>
+  <br>
+</p>
+
 ## Todo
-- Update and insert schematic
 - Add timing diagram
 - Add usage guide and polish README
