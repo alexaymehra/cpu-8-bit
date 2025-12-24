@@ -158,12 +158,26 @@ make alu
 #### Control Module
 ```bash
 make ctrl_reset
+```
+```bash
 make ctrl_fetch
+```
+```bash
 make ctrl_decode
+```
+```bash
 make ctrl_execute
+```
+```bash
 make ctrl_memory
+```
+```bash
 make ctrl_writeback
+```
+```bash
 make ctrl_halt
+```
+```bash
 make ctrl_idle
 ```
 #### Memory
