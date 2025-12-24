@@ -134,6 +134,7 @@ This will:
 - Compile the CPU and testbench
 - Run the simulation
 - Generate and open the waveform file
+
 You can view both the console output and GTKWave waveforms to verify program execution.
 
 ## Viewing Simulations
