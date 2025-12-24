@@ -10,7 +10,7 @@
 * [Viewing Simulations](#viewing-simulations)
 
 ## Overview
-This repository contains a custom-designed 8-bit multi-cycle CPU implemented in Verilog, built from the ground up. The verilog design is written at the Register Transfer Level (RTL), with each instruction executing in four clock cycles with finite state machine (FSM) contr[ol.
+This repository contains a custom-designed 8-bit multi-cycle CPU implemented in Verilog, built from the ground up. The verilog design is written at the Register Transfer Level (RTL), with each instruction executing in four clock cycles with finite state machine (FSM) control.
 
 **Features**
 - Custom Instruction Set Architecture (ISA) implemented on a Von Neumann architecture
