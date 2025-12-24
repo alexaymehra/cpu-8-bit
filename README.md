@@ -162,28 +162,32 @@ make ctrl_idle
 make memory
 ```
 #### Memory Load Test
-Ensure the `$readmemb$ line is:
-
-Ensure that the `$readmemb` line is `$readmemb("../programs/test1.b", mem, 8'd0, 8'd15);` then execute the command:
+Ensure the `$readmemb` line is:
+```verilog
+$readmemb("../programs/test1.b", mem, 8'd0, 8'd15);
+```
+Then run:
 ```bash
 make memory_load
 ```
-#### Multiplexer:
+#### Multiplexer
 ```bash
 make mux
 ```
-#### Register:
+#### Register
 ```bash
 make register
 ```
-#### Zero Extender:
+#### Zero Extender
 ```bash
 make zext
 ```
+---
 #### Clean up simulation files:
 ```bash
 make clean
 ```
+---
 
 
 
