@@ -125,19 +125,19 @@ To view the test smiulations, first navigate to the testing directory
 ```bash
 cd testing
 ```
-### Full program simulation:
+#### Full program simulation:
 ```bash
 make
 ```
-### Adder simulation:
+#### Adder simulation:
 ```bash
 make adder
 ```
-### ALU simulation:
+#### ALU simulation:
 ```bash
 make alu
 ```
-### Control module reset:
+#### Control module reset:
 ```bash
 make ctrl_reset
 ```
@@ -145,48 +145,48 @@ make ctrl_reset
 ```bash
 make ctrl_fetch
 ```
-### Control module decode:
+#### Control module decode:
 ```bash
 make ctrl_decode
 ```
-### Control module execute:
+#### Control module execute:
 ```bash
 make ctrl_execute
 ```
-### Control module memory:
+#### Control module memory:
 ```bash
 make ctrl_memory
 ```
-### Control module writeback:
+#### Control module writeback:
 ```bash
 make ctrl_writeback
 ```
-### Control module halt:
+#### Control module halt:
 ```bash
 make ctrl_halt
 ```
-### Control module idle:
+#### Control module idle:
 ```bash
 make ctrl_idle
 ```
-### Memory:
+#### Memory:
 ```bash
 make memory
 ```
-### Memory load:
+#### Memory load:
 Ensure that the `$readmemb` line is `$readmemb("../programs/test1.b", mem, 8'd0, 8'd15);` then execute the command:
 ```bash
 make memory_load
 ```
-### Multiplexer:
+#### Multiplexer:
 ```bash
 make mux
 ```
-### Register:
+#### Register:
 ```bash
 make register
 ```
-### Zero Extender:
+#### Zero Extender:
 ```bash
 make zext
 ```
