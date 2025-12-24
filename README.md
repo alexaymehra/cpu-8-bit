@@ -50,10 +50,49 @@ This repository contains a custom-designed 8-bit multi-cycle CPU implemented in 
 
 *Click the image above to open the schematic in full size.*
 
-
 ## Getting Started
-**1. Clone the Repository**
+### 1. Clone the Repository
 ```bash
 git clone https://github.com/alexaymehra/cpu-8-bit.git
 cd cpu-8-bit
 ```
+
+### 2. Set Up WSL (Windows Users Only)
+Open PowerShell as Administrator and run:
+```powershell
+wsl --install
+```
+Restart when prompted, then open Ubuntu from the Start Menu.
+
+### 3. Install Required Dependencies (Ubuntu / WSL)
+```bash
+sudo apt update
+sudo apt install -y \
+    iverilog \
+    gtkwave \
+    gcc \
+    make \
+    python3
+```
+Verify installations:
+```bash
+iverilog -V
+gtkwave --version
+gcc --version
+python3 --version
+```
+
+## Writing and Running Programs
+### 1. Write a Program
+Navigate to the programs directory
+```bash
+cd programs
+```
+Create or edit a text file:
+```bash
+code example.txt
+```
+Write a program using the documented (ISA)[instruction set architecture]
+
+
+
