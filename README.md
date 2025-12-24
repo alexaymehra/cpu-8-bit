@@ -118,6 +118,7 @@ code ../design/memory.v
 Locate the `$readmemb` line and update it as follows:
 - Replace `test1.b` with your program file (e.g. `example.b`)
 - Replace 15 with one less than the number of lines in your binary file (e.g. if the last line is line 18, use `17`)
+
 Example:
 ```verilog
 $readmemb("../programs/example.b", mem, 8'd0, 8'd17);
