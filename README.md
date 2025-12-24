@@ -92,7 +92,7 @@ Create or edit a text file:
 ```bash
 code example.txt
 ```
-Write a program using the documented (ISA)[instruction set architecture]
+Write a program using the documented [ISA](#instruction set architecture)
 
 
 
