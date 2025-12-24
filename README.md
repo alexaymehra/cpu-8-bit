@@ -1,9 +1,16 @@
 # 8-bit CPU
 
 ## Table of Contents
+* [Overview](#overview)
+* [Toolchain](#toolchain)
+* [Instruction Set Architecture](#instruction-set-architecture)
+* [CPU Schematic](#cpu-schematic)
+* [Getting Started](#getting-started)
+* [Writing and Running Programs](#writing-and-running-programs)
+* [Viewing Simulations](#viewing-simulations)
 
 ## Overview
-This repository contains a custom-designed 8-bit multi-cycle CPU implemented in Verilog, built from the ground up. The verilog design is written at the Register Transfer Level (RTL), with each instruction executing in four clock cycles with finite state machine (FSM) control.
+This repository contains a custom-designed 8-bit multi-cycle CPU implemented in Verilog, built from the ground up. The verilog design is written at the Register Transfer Level (RTL), with each instruction executing in four clock cycles with finite state machine (FSM) contr[ol.
 
 **Features**
 - Custom Instruction Set Architecture (ISA) implemented on a Von Neumann architecture
@@ -16,7 +23,7 @@ This repository contains a custom-designed 8-bit multi-cycle CPU implemented in 
 - Simple assembler to convert assembly programs into machine code
 - Makefile-based simulation workflow using Icarus Verilog and GTKWave
 
-## Toolchain:
+## Toolchain
 - **Editor:** Visual Studio Code
 - **Simulation:** Icarus Verilog 12.0
 - **Waveform Viewer:** GTKWave
