@@ -190,7 +190,7 @@ make register
 ```bash
 make zext
 ```
-##### Clean up simulation files:
+#### Clean up simulation files:
 ```bash
 make clean
 ```
