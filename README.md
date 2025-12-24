@@ -94,5 +94,108 @@ code example.txt
 ```
 Write a program using the [documented ISA](#instruction-set-architecture)
 
+### 2. Assemble the Program
+Run the assembler:
+```bash
+python3 assembler.py
+```
+When prompted, enter the name of the text file you created. When prompted again, enter the create the name of the binary file, making sure it ends with `.b` (`example.b`). Then inspect the binary file to see the line number of the last line of code.
+
+### 3. Load the Program into Memory
+Open the memory design module
+```bash
+code ../design/memory.v
+```
+At the end of the file, inside of the `$readmemb$` line, replace `test1.b` with the name of your program's binary file `example.b`. Inside of the last field, replace `15` with 1 less than the number of the last line of code in your binary file (if the last line is line 18, enter 17)
+
+###4. Run the Program
+Navigate to the testing directory and run make
+```bash
+cd ../testing
+make
+```
+This will:
+- Compile the CPU and testbench
+- Run the simulation
+- Generate and open the waveoform file
+You can then view the text output and waveform to see the results of the program
+
+## Viewing Simulations
+To view the test smiulations, first navigate to the testing directory
+```bash
+cd testing
+```
+### Full program simulation:
+```bash
+make
+```
+### Adder simulation:
+```bash
+make adder
+```
+### ALU simulation:
+```bash
+make alu
+```
+### Control module reset:
+```bash
+make ctrl_reset
+```
+### Control module fetch:
+```bash
+make ctrl_fetch
+```
+### Control module decode:
+```bash
+make ctrl_decode
+```
+### Control module execute:
+```bash
+make ctrl_execute
+```
+### Control module memory:
+```bash
+make ctrl_memory
+```
+### Control module writeback:
+```bash
+make ctrl_writeback
+```
+### Control module halt:
+```bash
+make ctrl_halt
+```
+### Control module idle:
+```bash
+make ctrl_idle
+```
+### Memory:
+```bash
+make memory
+```
+### Memory load:
+Ensure that the `$readmemb` line is `$readmemb("../programs/test1.b", mem, 8'd0, 8'd15);` then execute the command:
+```bash
+make memory_load
+```
+### Multiplexer:
+```bash
+make mux
+```
+### Register:
+```bash
+make register
+```
+### Zero Extender:
+```bash
+make zext
+```
+### Clean up simulation files:
+```bash
+make clean
+```
+
+
+
 
 
