@@ -1,5 +1,9 @@
 # 8-bit CPU
-This repository contains a custom-design 8-bit multi-cycle CPU implemented in Verilog, build from the ground up. The verilog design is written at the Register Transfer Level (RTL) and each instruction executes in 4 clock cycles.
+
+## Table of Contents
+
+## Overview
+This repository contains a custom-designed 8-bit multi-cycle CPU implemented in Verilog, built from the ground up. The verilog design is written at the Register Transfer Level (RTL) and each instruction executes in 4 clock cycles.
 
 **Features**
 - Custom Instruction Set Architecture (ISA) implemented on a Von Neumann architecture
@@ -25,7 +29,6 @@ This repository contains a custom-design 8-bit multi-cycle CPU implemented in Ve
 
 
 ## Instruction Set Architecture
-
 <p align = "center">
   <br>
   <a href="./docs/isa_manual.pdf">
@@ -36,7 +39,7 @@ This repository contains a custom-design 8-bit multi-cycle CPU implemented in Ve
 
 *Click the image above to open the full PDF specification.*
 
-## Schematic
+## CPU Schematic
 <p align = "center">
   <br>
   <a href="./docs/8_bit_cpu_schematic.png">
@@ -48,5 +51,9 @@ This repository contains a custom-design 8-bit multi-cycle CPU implemented in Ve
 *Click the image above to open the schematic in full size.*
 
 
-## Todo
-- Add usage guide and polish README
+## Getting Started
+**1. Clone the Repository**
+```bash
+git clone https://github.com/alexaymehra/cpu-8-bit.git
+cd cpu-8-bit
+```
