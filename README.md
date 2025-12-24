@@ -3,18 +3,17 @@
 ## Table of Contents
 
 ## Overview
-This repository contains a custom-designed 8-bit multi-cycle CPU implemented in Verilog, built from the ground up. The verilog design is written at the Register Transfer Level (RTL) and each instruction executes in 4 clock cycles.
+This repository contains a custom-designed 8-bit multi-cycle CPU implemented in Verilog, built from the ground up. The verilog design is written at the Register Transfer Level (RTL), with each instruction executing in four clock cycles with finite state machine (FSM) control.
 
 **Features**
 - Custom Instruction Set Architecture (ISA) implemented on a Von Neumann architecture
-- Multi-cycle instruction execution with FSM-based control
 - Modular datapath including:
   - Arithmetic Logic Unit (ALU)
   - Program Counter (PC)
   - Instruction Register (IR)
   - Two general-purpose registers
-  - Memory interface
-- Simple assembler to convert assembly into machine code
+  - Unified memory interface
+- Simple assembler to convert assembly programs into machine code
 - Makefile-based simulation workflow using Icarus Verilog and GTKWave
 
 ## Toolchain:
@@ -37,7 +36,7 @@ This repository contains a custom-designed 8-bit multi-cycle CPU implemented in 
   <br>
 </p>
 
-*Click the image above to open the full PDF specification.*
+*Click the image above to open the full ISA specification.*
 
 ## CPU Schematic
 <p align = "center">
@@ -48,7 +47,7 @@ This repository contains a custom-designed 8-bit multi-cycle CPU implemented in 
   <br>
 </p>
 
-*Click the image above to open the schematic in full size.*
+*Click the image above to open the schematic in full resolution.*
 
 ## Getting Started
 ### 1. Clone the Repository
@@ -92,24 +91,33 @@ Create or edit a text file:
 ```bash
 code example.txt
 ```
-Write a program using the [documented ISA](#instruction-set-architecture)
+Write a program using the [documented ISA](#instruction-set-architecture).
 
 ### 2. Assemble the Program
 Run the assembler:
 ```bash
 python3 assembler.py
 ```
-When prompted, enter the name of the text file you created. When prompted again, enter the create the name of the binary file, making sure it ends with `.b` (`example.b`). Then inspect the binary file to see the line number of the last line of code.
+When prompted:
+1. Enter the name of the source file (e.g. `example.txt`)
+2. Enter the name of the output binary file, ensuring it ends with `.b` (e.g. `example.b`)
+After assembly, inspect the generated `.b` file and note the line number of the final instruction.
 
 ### 3. Load the Program into Memory
-Open the memory design module
+Open the memory module:
 ```bash
 code ../design/memory.v
 ```
-At the end of the file, inside of the `$readmemb$` line, replace `test1.b` with the name of your program's binary file `example.b`. Inside of the last field, replace `15` with 1 less than the number of the last line of code in your binary file (if the last line is line 18, enter 17)
+Locate the `$readmemb` line and update it as follows:
+- Replace `test1.b` with your program file (e.g. `example.b`)
+- Replace 15 with one less than the number of lines in your binary file (e.g. if the last line is line 18, use `17`)
+Example:
+```verilog
+$readmemb("../programs/example.b", mem, 8'd0, 8'd17);
+```
 
-###4. Run the Program
-Navigate to the testing directory and run make
+### 4. Run the Program
+Navigate to the testing directory and run:
 ```bash
 cd ../testing
 make
@@ -117,63 +125,45 @@ make
 This will:
 - Compile the CPU and testbench
 - Run the simulation
-- Generate and open the waveoform file
-You can then view the text output and waveform to see the results of the program
+- Generate and open the waveform file
+You can view both the console output and GTKWave waveforms to verify program execution.
 
 ## Viewing Simulations
-To view the test smiulations, first navigate to the testing directory
+Navigate to the testing directory:
 ```bash
 cd testing
 ```
-#### Full program simulation:
+### Full Program Simulation
 ```bash
 make
 ```
-#### Adder simulation:
+### Component-Level Simulations
+#### Adder
 ```bash
 make adder
 ```
-#### ALU simulation:
+#### ALU 
 ```bash
 make alu
 ```
-#### Control module reset:
+#### Control Module
 ```bash
 make ctrl_reset
-```
-### Control module fetch:
-```bash
 make ctrl_fetch
-```
-#### Control module decode:
-```bash
 make ctrl_decode
-```
-#### Control module execute:
-```bash
 make ctrl_execute
-```
-#### Control module memory:
-```bash
 make ctrl_memory
-```
-#### Control module writeback:
-```bash
 make ctrl_writeback
-```
-#### Control module halt:
-```bash
 make ctrl_halt
-```
-#### Control module idle:
-```bash
 make ctrl_idle
 ```
-#### Memory:
+#### Memory
 ```bash
 make memory
 ```
-#### Memory load:
+#### Memory Load Test
+Ensure the `$readmemb$ line is:
+
 Ensure that the `$readmemb` line is `$readmemb("../programs/test1.b", mem, 8'd0, 8'd15);` then execute the command:
 ```bash
 make memory_load
